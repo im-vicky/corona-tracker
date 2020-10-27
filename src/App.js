@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Grid } from '@material-ui/core';
 import axios from 'axios';
-import CountUp from 'react-countup';
 import './App.css';
 import image from './images/image.png';
+import Card from './Components/Card'
 
 // active": "10879",
 // "confirmed": "211443",
@@ -28,11 +27,12 @@ const App =  () => {
     const[deltadeaths, setDeltadeaths] = useState("");
     const[deltarecovered, setDeltaRecovered] = useState("");
     const[state, setState] = useState("");
+    const[updateddate, setLastupdateddate] = useState("");
     const[lastupdatedtime, setLastupdatedtime] = useState("");
 
-    const datas = [confirmed, deaths, recovered];
-    const deltaData = [deltaconfirmed, deltadeaths, deltarecovered];
-    const cardName = ["Confirmed", "Deaths", "Recovered"];
+    // const datas = [confirmed, deaths, recovered];
+    // const deltaData = [deltaconfirmed, deltadeaths, deltarecovered];
+    // const cardName = ["Confirmed", "Deaths", "Recovered"];
 
     const apiURL = "https://api.covid19india.org/data.json";
     useEffect(() =>{
@@ -48,35 +48,20 @@ const App =  () => {
         setDeltadeaths(statewise[11].deltadeaths);
         setDeltaRecovered(statewise[11].deltarecovered);
         setState(statewise[11].state);
-        setLastupdatedtime(statewise[11].lastupdatedtime);
+        setLastupdateddate(statewise[11].lastupdatedtime.slice(0,10));
     }
 
-    const addcard = datas.map((data, key) => {
-        return <Grid container spacing={3}  justify="center">
-                    <Grid item xs={12} md={3} component={Card} spacing={3}>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                {cardName[key]}
-              </Typography>
-              <Typography variant="h5" component="h2">
-                <CountUp start={0} end={data} duration={2.75} separator="," />
-                <Typography variant="h6">
-                <CountUp start={0} end={deltaData[key]} duration={2.75} separator="," />
-                </Typography>
-              </Typography>
-              <Typography color="textSecondary">
-                {lastupdatedtime}
-              </Typography>
-            </CardContent>
-          </Grid>
-        </Grid>
-    })
-
     return ( 
-          <div>
-          <img src={image} alt="COVID-19" />
-          <Typography variant="h1">{state}</Typography>
-          {addcard}
+          <div class="container">
+          <img src={image} alt="COVID-19" style={{padding: 20}}/>
+          <h1>{state}</h1>
+          <div class= "secondContainer">
+          <Card name ={"Active"} value ={active} updateTime = {updateddate}/>
+          <Card name ={"Confirmed"} value ={confirmed} value2={deltaconfirmed} updateTime = {updateddate}/>
+          <Card name ={"Recovered"} value ={recovered} value2={deltarecovered} updateTime = {updateddate}/>
+          <Card name ={"Deaths"} value ={deaths} value2={deltadeaths} updateTime = {updateddate}/>
+          
+          </div>  
           </div>
       );
 }
