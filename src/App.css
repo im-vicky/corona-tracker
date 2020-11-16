@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: aquamarine;
-  min-height: 80vh;
+  min-height: 100vh;
 }
 .container {
   display: flex;
@@ -14,6 +13,9 @@ body {
 }
 .secondContainer {
   display: flex;
-  margin: 40px 0;
-  flex: 1 1 150px;
+  margin: 40px 0px;
+}
+.chart {
+  width: 600px;
+  height: 300px;
 }
